@@ -32,4 +32,10 @@ source ./pokerhands.tcl
 	return [isFourOfAKind $input]
 } -result {0}
 
+::tcltest::test isFullHouse_true {
+} -body {
+	set input [dict create a 1 b 1 c {1 2} d 2]
+	return [isFullHouse $input]
+} -result {1}
+
 ::tcltest::cleanupTests
