@@ -25,3 +25,28 @@ proc isFourOfAKind {hand} {
 	}
 	return 0
 }
+
+proc isFullHouse {hand} {
+	set suitsByValue [invertDict $hand]
+	puts $suitsByValue
+	set noValueExistsMoreThanThreeTimes 1
+	foreach suits [dict values $suitsByValue] {
+		if {[llength $suits] > 3} {
+			set noValueExistsMoreThanThreeTimes 0
+		}
+	}
+	if {[llength [dict keys $suitsByValue]] == 2 && $noValueExistsMoreThanThreeTimes} {
+		return 1
+	}
+	return 0
+}
+
+proc invertDict {dictionary} {
+	set inverted [dict create]
+	dict for {key val} $dictionary {
+		foreach item $val {
+			dict lappend inverted $item $key
+		}
+	}
+	return $inverted
+}
