@@ -26,40 +26,21 @@ proc isFourOfAKind {hand} {
 	return 0
 }
 
+# A hand contains only two distinct values;
+# each of those values occurs no more than three times
+# (assuming a valid hand of 5 cards.)
 proc isFullHouse {hand} {
-	set noValueOccursMoreThanThreeTimes 1
 	set valueCounts [dict create]
 	foreach cardVal [join [dict values $hand]] {
 		set tuple [dict incr valueCounts $cardVal]
 		set count [dict get $tuple $cardVal]
 		if {$count > 3} {
-			set noValueOccursMoreThanThreeTimes 0
+			return 0
 		}
 	}
-	if {[llength [dict keys $valueCounts]] == 2 && $noValueOccursMoreThanThreeTimes} {
+	if {[llength [dict keys $valueCounts]] == 2} {
 		return 1
 	} else {
 		return 0
 	}
-	#set suitsByValue [invertDict $hand]
-	#set noValueExistsMoreThanThreeTimes 1
-	#foreach suits [dict values $suitsByValue] {
-		#if {[llength $suits] > 3} {
-			#set noValueExistsMoreThanThreeTimes 0
-		#}
-	#}
-	#if {[llength [dict keys $suitsByValue]] == 2 && $noValueExistsMoreThanThreeTimes} {
-		#return 1
-	#}
-	#return 0
-}
-
-proc invertDict {dictionary} {
-	set inverted [dict create]
-	dict for {key val} $dictionary {
-		foreach item $val {
-			dict lappend inverted $item $key
-		}
-	}
-	return $inverted
 }
