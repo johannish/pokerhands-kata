@@ -1,6 +1,6 @@
 
 proc isStraightFlush {hand} {
-	if {[dict size $hand] > 1} {
+	if {![isFlush $hand]} {
 		return 0
 	}
 
@@ -43,4 +43,11 @@ proc isFullHouse {hand} {
 	} else {
 		return 0
 	}
+}
+
+proc isFlush {hand} {
+	if {[dict size $hand] > 1} {
+		return 0
+	}
+	return 1
 }
