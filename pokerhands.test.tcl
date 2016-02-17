@@ -56,11 +56,4 @@ source ./pokerhands.tcl
     return [isFullHouse $input]
 } -result {0}
 
-::tcltest::test invertDict {
-} -body {
-	set input [dict create a {1 2 3} b {1 2}]
-    set result [invertDict $input]
-    return [expr {$result eq {1 {a b} 2 {a b} 3 a}}]
-} -result 1
-
 ::tcltest::cleanupTests

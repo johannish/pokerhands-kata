@@ -27,18 +27,31 @@ proc isFourOfAKind {hand} {
 }
 
 proc isFullHouse {hand} {
-	set suitsByValue [invertDict $hand]
-	puts $suitsByValue
-	set noValueExistsMoreThanThreeTimes 1
-	foreach suits [dict values $suitsByValue] {
-		if {[llength $suits] > 3} {
-			set noValueExistsMoreThanThreeTimes 0
+	set noValueOccursMoreThanThreeTimes 1
+	set valueCounts [dict create]
+	foreach cardVal [join [dict values $hand]] {
+		set tuple [dict incr valueCounts $cardVal]
+		set count [dict get $tuple $cardVal]
+		if {$count > 3} {
+			set noValueOccursMoreThanThreeTimes 0
 		}
 	}
-	if {[llength [dict keys $suitsByValue]] == 2 && $noValueExistsMoreThanThreeTimes} {
+	if {[llength [dict keys $valueCounts]] == 2 && $noValueOccursMoreThanThreeTimes} {
 		return 1
+	} else {
+		return 0
 	}
-	return 0
+	#set suitsByValue [invertDict $hand]
+	#set noValueExistsMoreThanThreeTimes 1
+	#foreach suits [dict values $suitsByValue] {
+		#if {[llength $suits] > 3} {
+			#set noValueExistsMoreThanThreeTimes 0
+		#}
+	#}
+	#if {[llength [dict keys $suitsByValue]] == 2 && $noValueExistsMoreThanThreeTimes} {
+		#return 1
+	#}
+	#return 0
 }
 
 proc invertDict {dictionary} {
