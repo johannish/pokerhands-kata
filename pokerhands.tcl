@@ -7,32 +7,24 @@ proc isStraightFlush {hand} {
 }
 
 proc isFourOfAKind {hand} {
-	if {[determineHowManyOfAKind $hand] == 4} {
-		return 1
-	}
-	return 0
+	return [expr {[dict get [getHandStats $hand] highOccurrenceCount] == 4}]
 }
 
 proc isThreeOfKind {hand} {
-	if {[determineHowManyOfAKind $hand] == 3} {
-		return 1
-	}
-	return 0
+	return [expr {[dict get [getHandStats $hand] highOccurrenceCount] == 3}]
 }
 
-proc determineHowManyOfAKind {hand} {
-	set allCounts [dict values [countCardValues $hand]]
+proc getHandStats {hand} {
+	set valuesToCount [countCardValues $hand]
+	set allCounts [dict values $valuesToCount]
 	set highestCount [lindex [lsort -decreasing $allCounts] 0]
-	return $highestCount
+	return [dict create highOccurrenceCount $highestCount uniqueValues [dict keys $valuesToCount]]
 }
 
-# A hand contains only two distinct values;
-# each of those values occurs no more than three times
-# (assuming a valid hand of 5 cards.)
+# Assumes a valid hand of 5 cards.
 proc isFullHouse {hand} {
-	# TODO: this is lame that countCardValues gets called twice.
-	set valueCounts [countCardValues $hand]
-	if {[isThreeOfKind $hand] && [llength [dict keys $valueCounts]] == 2} {
+	set handStats [getHandStats $hand]
+	if {[dict get $handStats highOccurrenceCount] == 3 && [llength [dict get $handStats uniqueValues]] == 2} {
 		return 1
 	} else {
 		return 0

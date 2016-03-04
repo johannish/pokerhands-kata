@@ -56,6 +56,12 @@ source ./pokerhands.tcl
     return [isFullHouse $input]
 } -result {0}
 
+::tcltest::test isFullHouse_false_3 {
+} -body {
+    set input [dict create a {1 1 1} b {2 3}]
+    return [isFullHouse $input]
+} -result {0}
+
 ::tcltest::test isFlush_true {
 } -body {
 	set input [dict create a {1 3 6 7 11}]
