@@ -22,13 +22,13 @@ source ./pokerhands.tcl
 
 ::tcltest::test isFourOfAKind_true {
 } -body {
-	set input [dict create a {1 2 3 4} b 1]
+	set input [dict create a 12 b 12 c 12 d {1 12}]
 	return [isFourOfAKind $input]
 } -result {1}
 
 ::tcltest::test isFourOfAKind_false {
 } -body {
-	set input [dict create a {1 2 3} b {1 2}]
+	set input [dict create a 12 b 12 c 12 d {1 3}]
 	return [isFourOfAKind $input]
 } -result {0}
 
@@ -67,5 +67,23 @@ source ./pokerhands.tcl
 	set input [dict create a 1 b 1 c 1 d 1]
 	return [isFlush $input]
 } -result {0}
+
+::tcltest::test isStraight_true {
+} -body {
+	set input [dict create a 1 b 2 c 3 d 4]
+	return [isStraight $input]
+} -result {1}
+
+::tcltest::test isStraight_false {
+} -body {
+	set input [dict create a 1 b 2 c 4 d 4]
+	return [isStraight $input]
+} -result {1}
+
+::tcltest::test isThreeOfKind_true {
+} -body {
+	set input [dict create a 1 b 1 c 1 d {9 8}]
+	return [isThreeOfKind $input]
+} -result {1}
 
 ::tcltest::cleanupTests
